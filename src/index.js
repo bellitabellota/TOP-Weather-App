@@ -37,7 +37,7 @@ function fetchWeatherData(location, resolve) {
     resolve(weatherData);
   },
   function(error) {
-    console.log(`The data could not be fetched. ${error.message}`);
+    alert(`The data could not be fetched. ${error.message}`);
   })
 }
 
