@@ -28,22 +28,18 @@ function displayWeather(weatherData) {
     <p>${weatherData.description}</p>`;
 }
 
-function fetchWeatherData(location, resolve) {
-  fetch(`https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${location}?key=BMP4FPLMSRRNBQRAKYHDX5L95`)
-  .then(function(result){
+async function fetchWeatherData(location, resolve) {
+  try {
+    const result = await fetch(`https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${location}?key=BMP4FPLMSRRNBQRAKYHDX5L95`)
     if(!result.ok) {
       throw new Error(`Response.status: ${result.status}`)
-    } else {
-      return result.json();
-    }  
-  })
-  .then(function(result) {
-    const weatherData = {location, temperature: result.days[0].temp, description: result.days[0].description}
+    }
+    const data = await result.json(); 
+    const weatherData = {location, temperature: data.days[0].temp, description: data.days[0].description}
     resolve(weatherData);
-  },
-  function(error) {
+  } catch (error) {
     alert(`The data could not be fetched. ${error.message}`);
-  })
+  }
 }
 
 
