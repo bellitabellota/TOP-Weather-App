@@ -2,18 +2,24 @@ import "./styles.css";
 
 const searchButton = document.querySelector(".js-search-button");
 const inputElem = document.getElementById("location");
-const searchResultContainer = document.querySelector("js-search-result");
+const searchResultContainer = document.querySelector(".js-search-result");
 
 let getWeatherData = new Promise (function(resolve) {
   searchButton.addEventListener("click", () => {
     const searchedLocation = inputElem.value.toLowerCase().trim();
     fetchWeatherData(searchedLocation, resolve);
   })
-});
-
-  getWeatherData.then(function(result){
+})
+.then(function(result){
     console.log(result);
+    displayWeather(result);
   })
+
+function displayWeather(weatherData) {
+  searchResultContainer.innerHTML = `<p class="js-location">${weatherData.location}</p>
+    <p class="js-temperature">Temperature: ${weatherData.temperature} °F</p>
+    <p>${weatherData.description}</p>`;
+}
 
 function fetchWeatherData(location, resolve) {
   fetch(`https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${location}?key=BMP4FPLMSRRNBQRAKYHDX5L95`)
