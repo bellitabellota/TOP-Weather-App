@@ -14,4 +14,33 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: space-evenly;
 }
+
+.loading-container {
+  display: flex;
+  gap: 15px;
+}
+
+.loading {
+
+  width: 10px;
+  height: 10px;
+  background-color: rgb(80, 133, 179);
+  border-radius: 6px;
+
+  animation: rotating-dot 0.5s alternate infinite;
+}
+
+@keyframes rotating-dot {
+  from {
+    transform:
+      scale(1);
+  }
+  to {
+    transform:
+    scale(1.25);
+  }
+}
+
+ 
