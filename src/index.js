@@ -10,15 +10,19 @@ searchButton.addEventListener("click", () => {
       <div class="loading"></div>
       <div class="loading"></div>
     </div>`;
-  const getWeatherData = new Promise (function(resolve) {
-    const searchedLocation = inputElem.value.toLowerCase().trim();
-    fetchWeatherData(searchedLocation, resolve);
-  })
-  .then(function(result){
-    console.log(result);
-    displayWeather(result);
-  })
+
+  getWeatherData();
+
 })
+
+async function getWeatherData () {
+  const searchedLocation = inputElem.value.toLowerCase().trim();
+  const data = await fetchWeatherData(searchedLocation);
+  if (data) {
+    console.log(data);
+    displayWeather(data);
+  }
+}
 
 
 function displayWeather(weatherData) {
@@ -35,8 +39,7 @@ async function fetchWeatherData(location, resolve) {
       throw new Error(`Response.status: ${result.status}`)
     }
     const data = await result.json(); 
-    const weatherData = {location, temperature: data.days[0].temp, description: data.days[0].description}
-    resolve(weatherData);
+    return {location, temperature: data.days[0].temp, description: data.days[0].description}
   } catch (error) {
     alert(`The data could not be fetched. ${error.message}`);
   }
