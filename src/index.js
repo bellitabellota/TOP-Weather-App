@@ -10,14 +10,18 @@ searchButton.addEventListener("click", () => {
       <div class="loading"></div>
       <div class="loading"></div>
     </div>`;
-  const getWeatherData = new Promise (function(resolve) {
-    const searchedLocation = inputElem.value.toLowerCase().trim();
-    fetchWeatherData(searchedLocation, resolve);
-  })
+
+
+  const searchedLocation = inputElem.value.toLowerCase().trim();
+
+  fetchWeatherData(searchedLocation)
   .then(function(result){
     console.log(result);
     displayWeather(result);
   })
+  .catch(function(error) {
+    alert(`The data could not be fetched. ${error.message}`);
+  });
 })
 
 
@@ -28,8 +32,8 @@ function displayWeather(weatherData) {
     <p>${weatherData.description}</p>`;
 }
 
-function fetchWeatherData(location, resolve) {
-  fetch(`https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${location}?key=BMP4FPLMSRRNBQRAKYHDX5L95`)
+function fetchWeatherData(location) {
+  return fetch(`https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${location}?key=BMP4FPLMSRRNBQRAKYHDX5L95`)
   .then(function(result){
     if(!result.ok) {
       throw new Error(`Response.status: ${result.status}`)
@@ -38,11 +42,7 @@ function fetchWeatherData(location, resolve) {
     }  
   })
   .then(function(result) {
-    const weatherData = {location, temperature: result.days[0].temp, description: result.days[0].description}
-    resolve(weatherData);
-  },
-  function(error) {
-    alert(`The data could not be fetched. ${error.message}`);
+    return {location, temperature: result.days[0].temp, description: result.days[0].description};
   })
 }
 
