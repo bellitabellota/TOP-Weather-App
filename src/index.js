@@ -4,16 +4,17 @@ const searchButton = document.querySelector(".js-search-button");
 const inputElem = document.getElementById("location");
 const searchResultContainer = document.querySelector(".js-search-result");
 
-let getWeatherData = new Promise (function(resolve) {
-  searchButton.addEventListener("click", () => {
+searchButton.addEventListener("click", () => {
+  const getWeatherData = new Promise (function(resolve) {
     const searchedLocation = inputElem.value.toLowerCase().trim();
     fetchWeatherData(searchedLocation, resolve);
   })
-})
-.then(function(result){
+  .then(function(result){
     console.log(result);
     displayWeather(result);
   })
+})
+
 
 function displayWeather(weatherData) {
   searchResultContainer.innerHTML = "";
