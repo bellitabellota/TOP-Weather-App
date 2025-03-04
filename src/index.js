@@ -16,7 +16,7 @@ let getWeatherData = new Promise (function(resolve) {
   })
 
 function displayWeather(weatherData) {
-  searchResultContainer.innerHTML = `<p class="js-location">${weatherData.location}</p>
+  searchResultContainer.innerHTML = `<p class="js-location">${weatherData.location.toUpperCase()}</p>
     <p class="js-temperature">Temperature: ${weatherData.temperature} °F</p>
     <p>${weatherData.description}</p>`;
 }
