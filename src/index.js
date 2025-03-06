@@ -20,11 +20,15 @@ function showLoadingSpinner() {
 }
 
 async function getWeatherData () {
-  const searchedLocation = inputElem.value.toLowerCase().trim();
-  const data = await fetchWeatherData(searchedLocation);
-  if (data) {
-    console.log(data);
-    displayWeather(data);
+  try {
+    const searchedLocation = inputElem.value.toLowerCase().trim();
+    const data = await fetchWeatherData(searchedLocation);
+    if (data) {
+      console.log(data);
+      displayWeather(data);
+    }
+  } catch(error) {
+    searchResultContainer.innerHTML = `The weather data could not be loaded. ${error.message}`;
   }
 }
 
@@ -45,7 +49,7 @@ async function fetchWeatherData(location, resolve) {
     const data = await result.json(); 
     return {location, temperature: data.days[0].temp, description: data.days[0].description}
   } catch (error) {
-    alert(`The data could not be fetched. ${error.message}`);
+    throw new Error(`${error.message}`);
   }
 }
 
