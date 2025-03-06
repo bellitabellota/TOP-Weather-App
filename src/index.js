@@ -40,7 +40,7 @@ function displayWeather(weatherData) {
     <p>${weatherData.description}</p>`;
 }
 
-async function fetchWeatherData(location, resolve) {
+async function fetchWeatherData(location) {
   try {
     const result = await fetch(`https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${location}?key=BMP4FPLMSRRNBQRAKYHDX5L95`)
     if(!result.ok) {
